@@ -16,6 +16,9 @@ stages:
       - bash: env
         displayName: env vars
 
+      - bash: echo "##vso[task.setvariable variable=ANDROID_HOME;]$ANDROID_HOME"
+      - bash: echo "##vso[task.setvariable variable=ANDROID_NDK;]$ANDROID_NDK_LATEST_HOME"
+
       - task: ShellScript@2
         inputs:
           scriptPath: '$(Build.SourcesDirectory)/tools/depends/bootstrap'
@@ -24,7 +27,7 @@ stages:
       - task: ShellScript@2
         inputs:
           scriptPath: '$(Build.SourcesDirectory)/tools/depends/configure'
-          args: '--with-tarballs=$HOME/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_HOME --with-ndk-path=$ANDROID_NDK_LATEST_HOME --prefix=$HOME/android-tools/xbmc-depends'
+          args: '--with-tarballs=$HOME/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$(ANDROID_HOME) --with-ndk-path=$(ANDROID_NDK) --prefix=$HOME/android-tools/xbmc-depends'
           workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
         
       - task: CMake@1
