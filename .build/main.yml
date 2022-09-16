@@ -19,6 +19,9 @@ stages:
       - bash: echo "##vso[task.setvariable variable=ANDROID_HOME;]$ANDROID_HOME"
       - bash: echo "##vso[task.setvariable variable=ANDROID_NDK;]$ANDROID_NDK_LATEST_HOME"
 
+      - script: 'sudo apt-get install libcurl4-openssl-dev'
+        workingDirectory: '$(Build.SourcesDirectory)'
+
       - script: 'mkdir android-tools'
         workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
@@ -67,3 +70,11 @@ stages:
           PathtoPublish: '$(build.artifactstagingdirectory)/package/'
           ArtifactName: 'kodi'
           publishLocation: 'Container'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publishing apk as artifact'
+        inputs:
+          PathtoPublish: '$(Build.SourcesDirectory)/tools/depends/native/cmake/x86_64-linux-native/CMakeFiles/'
+          ArtifactName: 'BuildLogs'
+          publishLocation: 'Container'
+          condition: always()
