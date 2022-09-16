@@ -33,4 +33,4 @@ stages:
       - task: CMake@1
         inputs:
           workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
-          cmakeArgs: '-j1 --with-ndk-path=$(ANDROID_NDK) --with-sdk-path=$(ANDROID_SDK)'
+          cmakeArgs: '-j1 --with-ndk-path=$(ANDROID_NDK) --with-sdk-path=$(ANDROID_HOME)'
