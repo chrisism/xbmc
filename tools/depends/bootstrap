@@ -2,6 +2,7 @@
 
 # Some platforms may not have m4/autoconf. If not, build temporary copies in
 # order to bootstrap.
+echo "Hello World"
 DEPENDS=`dirname $0`
 export PATH="$DEPENDS/pre-build-deps/bin:$PATH"
 which m4 >/dev/null 2>/dev/null || make -C $DEPENDS/pre-depends/m4-pre-depends
