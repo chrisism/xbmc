@@ -29,7 +29,7 @@ stages:
         workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
         displayName: "Bootstrap"
         
-      - script: './configure --with-tarballs=$(Build.ArtifactStagingDirectory)/android-tools/xbmc-tarballs --host=i686-linux-android --with-sdk-path=$(ANDROID_HOME) --with-ndk-path=$(ANDROID_NDK) --prefix=$(Build.ArtifactStagingDirectory)/android-tools/xbmc-depends'
+      - script: './configure --with-tarballs=$(Build.ArtifactStagingDirectory)/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$(ANDROID_HOME) --with-ndk-path=$(ANDROID_NDK) --prefix=$(Build.ArtifactStagingDirectory)/android-tools/xbmc-depends'
         workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
         displayName: "Configure"
         
