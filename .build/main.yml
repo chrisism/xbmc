@@ -19,7 +19,7 @@ stages:
       - bash: echo "##vso[task.setvariable variable=ANDROID_HOME;]$ANDROID_HOME"
       - bash: echo "##vso[task.setvariable variable=ANDROID_NDK;]$ANDROID_NDK_LATEST_HOME"
 
-      - script: 'sudo apt-get install libcurl4-openssl-dev'
+      - script: 'sudo apt-get install autoconf build-essential curl default-jdk gawk git gperf lib32stdc++6 lib32z1 lib32z1-dev libcurl4-openssl-dev unzip zip zlib1g-dev'
         workingDirectory: '$(Build.SourcesDirectory)'
 
       - script: 'mkdir android-tools'
