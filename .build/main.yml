@@ -31,4 +31,4 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
         
       - script: 'make -j1 --with-ndk-path=$(ANDROID_NDK) --with-sdk-path=$(ANDROID_HOME)'
-          workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
+        workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
