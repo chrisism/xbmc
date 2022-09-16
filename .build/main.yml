@@ -13,6 +13,9 @@ stages:
       displayName: build
         
       steps:
+      - bash: env
+        displayName: env vars
+        
       - task: ShellScript@2
         inputs:
           scriptPath: '$(Build.SourcesDirectory)/tools/depends/bootstrap'
