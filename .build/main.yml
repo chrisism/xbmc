@@ -21,7 +21,7 @@ stages:
       - task: ShellScript@2
         inputs:
           scriptPath: '$(Build.SourcesDirectory)/tools/depends/configure'
-          args: '--with-tarballs=$HOME/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_SDK_PATH --with-ndk-path=$ANDROID_NDK_PATH --prefix=$HOME/android-tools/xbmc-depends'
+          args: '--with-tarballs=$HOME/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$ANDROID_NDK_18R_PATH --with-ndk-path=$ANDROID_NDK_PATH --prefix=$HOME/android-tools/xbmc-depends'
           workingDirectory: '$(Build.SourcesDirectory)/tools/depends/'
         
       - task: CMake@1
