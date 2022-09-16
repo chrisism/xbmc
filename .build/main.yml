@@ -13,16 +13,16 @@ stages:
         
       steps:
       - task: Bash@3
-        workingDirectory: '$(Build.SourcesDirectory)/tools/depends'
         inputs:
           filePath: 'bootstrap'
-
+          workingDirectory: '$(Build.SourcesDirectory)/tools/depends'
+        
       - task: Bash@3
-        workingDirectory: '$(Build.SourcesDirectory)/tools/depends'
         inputs:
           filePath: 'configure'
           arguments: '--with-tarballs=$HOME/android-tools/xbmc-tarballs --host=aarch64-linux-android --with-sdk-path=$HOME/android-tools/android-sdk-linux --with-ndk-path=$HOME/android-tools/android-ndk-r21e --prefix=$HOME/android-tools/xbmc-depends'
-
+          workingDirectory: '$(Build.SourcesDirectory)/tools/depends'
+        
       - task: CMake@1
         inputs:
           workingDirectory: '$(Build.SourcesDirectory)/tools/depends'
