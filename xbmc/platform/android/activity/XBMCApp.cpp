@@ -976,19 +976,19 @@ bool CXBMCApp::StartActivity(const std::string& package,
                              const std::string& intent,
                              const std::string& dataType,
                              const std::string& dataURI,
-                             const std::string& action,
-                             const std::string& category,
                              const std::string& flags,
-                             const std::string& extras)
+                             const std::string& extras,
+                             const std::string& action,
+                             const std::string& category)
 {
   CLog::LogF(LOGDEBUG, "package: {}", package);
   CLog::LogF(LOGDEBUG, "intent: {}", intent);
   CLog::LogF(LOGDEBUG, "dataType: {}", dataType);
   CLog::LogF(LOGDEBUG, "dataURI: {}", dataURI);
-  CLog::LogF(LOGDEBUG, "action: {}", action);
-  CLog::LogF(LOGDEBUG, "category: {}", category);
   CLog::LogF(LOGDEBUG, "flags: {}", flags);
   CLog::LogF(LOGDEBUG, "extras: {}", extras);
+  CLog::LogF(LOGDEBUG, "action: {}", action);
+  CLog::LogF(LOGDEBUG, "category: {}", category);
 
   CJNIIntent newIntent = intent.empty() ?
     GetPackageManager().getLaunchIntentForPackage(package) :
