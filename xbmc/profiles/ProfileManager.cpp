@@ -29,6 +29,7 @@
 #include "guilib/LocalizeStrings.h"
 #include "input/InputManager.h"
 #include "music/MusicLibraryQueue.h"
+#include "playlists/PlayList.h"
 #include "settings/Settings.h"
 #include "settings/SettingsComponent.h"
 #include "settings/lib/SettingsManager.h"
@@ -386,9 +387,9 @@ void CProfileManager::FinalizeLoadProfile()
 
   if (m_lastUsedProfile != m_currentProfile)
   {
-    playlistManager.ClearPlaylist(PLAYLIST::TYPE_VIDEO);
-    playlistManager.ClearPlaylist(PLAYLIST::TYPE_MUSIC);
-    playlistManager.SetCurrentPlaylist(PLAYLIST::TYPE_NONE);
+    playlistManager.ClearPlaylist(PLAYLIST_VIDEO);
+    playlistManager.ClearPlaylist(PLAYLIST_MUSIC);
+    playlistManager.SetCurrentPlaylist(PLAYLIST_NONE);
   }
 
   networkManager.NetworkMessage(CNetworkBase::SERVICES_UP, 1);

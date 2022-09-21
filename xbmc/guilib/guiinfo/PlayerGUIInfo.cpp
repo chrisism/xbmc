@@ -13,7 +13,6 @@
 #include "PlayListPlayer.h"
 #include "ServiceBroker.h"
 #include "URL.h"
-#include "Util.h"
 #include "cores/AudioEngine/Utils/AEUtil.h"
 #include "cores/DataCacheCore.h"
 #include "cores/EdlEdit.h"
@@ -537,8 +536,8 @@ bool CPlayerGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int context
     case PLAYLIST_ISRANDOM:
     {
       PLAYLIST::CPlayListPlayer& player = CServiceBroker::GetPlaylistPlayer();
-      PLAYLIST::Id playlistid = info.GetData1();
-      if (info.GetData2() > 0 && playlistid != PLAYLIST::TYPE_NONE)
+      int playlistid = info.GetData1();
+      if (info.GetData2() > 0 && playlistid > PLAYLIST_NONE)
         value = player.IsShuffled(playlistid);
       else
         value = player.IsShuffled(player.GetCurrentPlaylist());
@@ -547,21 +546,21 @@ bool CPlayerGUIInfo::GetBool(bool& value, const CGUIListItem *gitem, int context
     case PLAYLIST_ISREPEAT:
     {
       PLAYLIST::CPlayListPlayer& player = CServiceBroker::GetPlaylistPlayer();
-      PLAYLIST::Id playlistid = info.GetData1();
-      if (info.GetData2() > 0 && playlistid != PLAYLIST::TYPE_NONE)
-        value = (player.GetRepeat(playlistid) == PLAYLIST::RepeatState::ALL);
+      int playlistid = info.GetData1();
+      if (info.GetData2() > 0 && playlistid > PLAYLIST_NONE)
+        value = (player.GetRepeat(playlistid) == PLAYLIST::REPEAT_ALL);
       else
-        value = player.GetRepeat(player.GetCurrentPlaylist()) == PLAYLIST::RepeatState::ALL;
+        value = player.GetRepeat(player.GetCurrentPlaylist()) == PLAYLIST::REPEAT_ALL;
       return true;
     }
     case PLAYLIST_ISREPEATONE:
     {
       PLAYLIST::CPlayListPlayer& player = CServiceBroker::GetPlaylistPlayer();
-      PLAYLIST::Id playlistid = info.GetData1();
-      if (info.GetData2() > 0 && playlistid != PLAYLIST::TYPE_NONE)
-        value = (player.GetRepeat(playlistid) == PLAYLIST::RepeatState::ONE);
+      int playlistid = info.GetData1();
+      if (info.GetData2() > 0 && playlistid > PLAYLIST_NONE)
+        value = (player.GetRepeat(playlistid) == PLAYLIST::REPEAT_ONE);
       else
-        value = player.GetRepeat(player.GetCurrentPlaylist()) == PLAYLIST::RepeatState::ONE;
+        value = player.GetRepeat(player.GetCurrentPlaylist()) == PLAYLIST::REPEAT_ONE;
       return true;
     }
 

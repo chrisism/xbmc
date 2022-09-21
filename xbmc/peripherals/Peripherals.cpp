@@ -27,6 +27,7 @@
 #include "FileItem.h"
 #include "GUIUserMessages.h"
 #include "ServiceBroker.h"
+#include "Util.h"
 #include "bus/virtual/PeripheralBusAddon.h"
 #include "bus/virtual/PeripheralBusApplication.h"
 #include "devices/PeripheralBluetooth.h"

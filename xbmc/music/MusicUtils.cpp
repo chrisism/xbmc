@@ -26,6 +26,7 @@
 
 using namespace MUSIC_INFO;
 using namespace XFILE;
+using namespace PLAYLIST;
 
 namespace MUSIC_UTILS
 {
@@ -110,9 +111,7 @@ namespace MUSIC_UTILS
       loaded when the playlist is shown.
       */
       bool clearcache(false);
-      const PLAYLIST::CPlayList& playlist =
-          CServiceBroker::GetPlaylistPlayer().GetPlaylist(PLAYLIST::TYPE_MUSIC);
-
+      const CPlayList& playlist = CServiceBroker::GetPlaylistPlayer().GetPlaylist(PLAYLIST_MUSIC);
       for (int i = 0; i < playlist.size(); ++i)
       {
         CFileItemPtr songitem = playlist[i];

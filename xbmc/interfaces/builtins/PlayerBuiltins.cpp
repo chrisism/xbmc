@@ -15,10 +15,10 @@
 #include "PlayListPlayer.h"
 #include "SeekHandler.h"
 #include "ServiceBroker.h"
-#include "Util.h"
 #include "filesystem/Directory.h"
 #include "guilib/GUIComponent.h"
 #include "guilib/GUIWindowManager.h"
+#include "playlists/PlayList.h"
 #include "pvr/PVRManager.h"
 #include "pvr/channels/PVRChannel.h"
 #include "pvr/guilib/PVRGUIActions.h"
@@ -69,25 +69,25 @@ static int PlayOffset(const std::vector<std::string>& params)
     std::string strPlaylist = params[0];
     strPos = params[1];
 
-    PLAYLIST::Id playlistId = PLAYLIST::TYPE_NONE;
+    int iPlaylist = PLAYLIST_NONE;
     if (paramlow == "music")
-      playlistId = PLAYLIST::TYPE_MUSIC;
+      iPlaylist = PLAYLIST_MUSIC;
     else if (paramlow == "video")
-      playlistId = PLAYLIST::TYPE_VIDEO;
+      iPlaylist = PLAYLIST_VIDEO;
 
     // unknown playlist
-    if (playlistId == PLAYLIST::TYPE_NONE)
+    if (iPlaylist == PLAYLIST_NONE)
     {
       CLog::Log(LOGERROR, "Playlist.PlayOffset called with unknown playlist: {}", strPlaylist);
       return false;
     }
 
     // user wants to play the 'other' playlist
-    if (playlistId != CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist())
+    if (iPlaylist != CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist())
     {
       g_application.StopPlaying();
       CServiceBroker::GetPlaylistPlayer().Reset();
-      CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist(playlistId);
+      CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist(iPlaylist);
     }
   }
   // play the desired offset
@@ -282,85 +282,79 @@ static int PlayerControl(const std::vector<std::string>& params)
   else if (paramlow == "random" || paramlow == "randomoff" || paramlow == "randomon")
   {
     // get current playlist
-    PLAYLIST::Id playlistId = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+    int iPlaylist = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
 
     // reverse the current setting
-    bool shuffled = CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistId);
+    bool shuffled = CServiceBroker::GetPlaylistPlayer().IsShuffled(iPlaylist);
     if ((shuffled && paramlow == "randomon") || (!shuffled && paramlow == "randomoff"))
       return 0;
 
     // check to see if we should notify the user
     bool notify = (params.size() == 2 && StringUtils::EqualsNoCase(params[1], "notify"));
-    CServiceBroker::GetPlaylistPlayer().SetShuffle(playlistId, !shuffled, notify);
+    CServiceBroker::GetPlaylistPlayer().SetShuffle(iPlaylist, !shuffled, notify);
 
     // save settings for now playing windows
-    switch (playlistId)
+    switch (iPlaylist)
     {
-      case PLAYLIST::TYPE_MUSIC:
-        CMediaSettings::GetInstance().SetMusicPlaylistShuffled(
-            CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistId));
+      case PLAYLIST_MUSIC:
+        CMediaSettings::GetInstance().SetMusicPlaylistShuffled(CServiceBroker::GetPlaylistPlayer().IsShuffled(iPlaylist));
         CServiceBroker::GetSettingsComponent()->GetSettings()->Save();
         break;
-      case PLAYLIST::TYPE_VIDEO:
-        CMediaSettings::GetInstance().SetVideoPlaylistShuffled(
-            CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistId));
+      case PLAYLIST_VIDEO:
+        CMediaSettings::GetInstance().SetVideoPlaylistShuffled(CServiceBroker::GetPlaylistPlayer().IsShuffled(iPlaylist));
         CServiceBroker::GetSettingsComponent()->GetSettings()->Save();
       default:
         break;
     }
 
     // send message
-    CGUIMessage msg(GUI_MSG_PLAYLISTPLAYER_RANDOM, 0, 0, playlistId,
-                    CServiceBroker::GetPlaylistPlayer().IsShuffled(playlistId));
+    CGUIMessage msg(GUI_MSG_PLAYLISTPLAYER_RANDOM, 0, 0, iPlaylist, CServiceBroker::GetPlaylistPlayer().IsShuffled(iPlaylist));
     CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
   }
   else if (StringUtils::StartsWithNoCase(params[0], "repeat"))
   {
     // get current playlist
-    PLAYLIST::Id playlistId = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
-    PLAYLIST::RepeatState prevRepeatState =
-        CServiceBroker::GetPlaylistPlayer().GetRepeat(playlistId);
+    int iPlaylist = CServiceBroker::GetPlaylistPlayer().GetCurrentPlaylist();
+    PLAYLIST::REPEAT_STATE previous_state = CServiceBroker::GetPlaylistPlayer().GetRepeat(iPlaylist);
 
     std::string paramlow(params[0]);
     StringUtils::ToLower(paramlow);
 
-    PLAYLIST::RepeatState repeatState;
+    PLAYLIST::REPEAT_STATE state;
     if (paramlow == "repeatall")
-      repeatState = PLAYLIST::RepeatState::ALL;
+      state = PLAYLIST::REPEAT_ALL;
     else if (paramlow == "repeatone")
-      repeatState = PLAYLIST::RepeatState::ONE;
+      state = PLAYLIST::REPEAT_ONE;
     else if (paramlow == "repeatoff")
-      repeatState = PLAYLIST::RepeatState::NONE;
-    else if (prevRepeatState == PLAYLIST::RepeatState::NONE)
-      repeatState = PLAYLIST::RepeatState::ALL;
-    else if (prevRepeatState == PLAYLIST::RepeatState::ALL)
-      repeatState = PLAYLIST::RepeatState::ONE;
+      state = PLAYLIST::REPEAT_NONE;
+    else if (previous_state == PLAYLIST::REPEAT_NONE)
+      state = PLAYLIST::REPEAT_ALL;
+    else if (previous_state == PLAYLIST::REPEAT_ALL)
+      state = PLAYLIST::REPEAT_ONE;
     else
-      repeatState = PLAYLIST::RepeatState::NONE;
+      state = PLAYLIST::REPEAT_NONE;
 
-    if (repeatState == prevRepeatState)
+    if (state == previous_state)
       return 0;
 
     // check to see if we should notify the user
     bool notify = (params.size() == 2 && StringUtils::EqualsNoCase(params[1], "notify"));
-    CServiceBroker::GetPlaylistPlayer().SetRepeat(playlistId, repeatState, notify);
+    CServiceBroker::GetPlaylistPlayer().SetRepeat(iPlaylist, state, notify);
 
     // save settings for now playing windows
-    switch (playlistId)
+    switch (iPlaylist)
     {
-      case PLAYLIST::TYPE_MUSIC:
-        CMediaSettings::GetInstance().SetMusicPlaylistRepeat(repeatState ==
-                                                             PLAYLIST::RepeatState::ALL);
+      case PLAYLIST_MUSIC:
+        CMediaSettings::GetInstance().SetMusicPlaylistRepeat(state == PLAYLIST::REPEAT_ALL);
         CServiceBroker::GetSettingsComponent()->GetSettings()->Save();
         break;
-      case PLAYLIST::TYPE_VIDEO:
-        CMediaSettings::GetInstance().SetVideoPlaylistRepeat(repeatState ==
-                                                             PLAYLIST::RepeatState::ALL);
+      case PLAYLIST_VIDEO:
+        CMediaSettings::GetInstance().SetVideoPlaylistRepeat(state == PLAYLIST::REPEAT_ALL);
         CServiceBroker::GetSettingsComponent()->GetSettings()->Save();
     }
 
     // send messages so now playing window can get updated
-    CGUIMessage msg(GUI_MSG_PLAYLISTPLAYER_REPEAT, 0, 0, playlistId, static_cast<int>(repeatState));
+    CGUIMessage msg(GUI_MSG_PLAYLISTPLAYER_REPEAT, 0, 0, iPlaylist, (int)state);
     CServiceBroker::GetGUI()->GetWindowManager().SendThreadMessage(msg);
   }
   else if (StringUtils::StartsWithNoCase(params[0], "resumelivetv"))
@@ -380,8 +374,7 @@ static int PlayerControl(const std::vector<std::string>& params)
       }
 
       CFileItem playItem(groupMember);
-      if (!g_application.PlayMedia(
-              playItem, "", channel->IsRadio() ? PLAYLIST::TYPE_MUSIC : PLAYLIST::TYPE_VIDEO))
+      if (!g_application.PlayMedia(playItem, "", channel->IsRadio() ? PLAYLIST_MUSIC : PLAYLIST_VIDEO))
       {
         CLog::Log(LOGERROR, "ResumeLiveTv could not play channel: {}", channel->ChannelName());
         return false;
@@ -421,7 +414,7 @@ static int PlayDVD(const std::vector<std::string>& params)
  *           params[1,...] = "noresume" to force not resuming (optional).
  *           params[1,...] = "playoffset=<offset>" to start playback from a given position in a playlist (optional).
  *           params[1,...] = "playlist_type_hint=<id>" to set the playlist type if a playlist file (e.g. STRM) is played (optional),
- *                           for <id> value refer to PLAYLIST::TYPE_MUSIC / PLAYLIST::TYPE_VIDEO values, if not set will fallback to music playlist.
+ *                           for <id> value refer to PlayList.h PLAYLIST_MUSIC / PLAYLIST_VIDEO values, if not set will fallback to music playlist.
  */
 static int PlayMedia(const std::vector<std::string>& params)
 {
@@ -508,12 +501,12 @@ static int PlayMedia(const std::vector<std::string>& params)
       else
         items.Sort(SortByLabel, SortOrderAscending);
 
-      PLAYLIST::Id playlistId = containsVideo ? PLAYLIST::TYPE_VIDEO : PLAYLIST::TYPE_MUSIC;
+      int playlist = containsVideo? PLAYLIST_VIDEO : PLAYLIST_MUSIC;
       // Mixed playlist item played by music player, mixed content folder has music removed
       if (containsMusic && containsVideo)
       {
         if (item.IsPlayList())
-          playlistId = PLAYLIST::TYPE_MUSIC;
+          playlist = PLAYLIST_MUSIC;
         else
         {
           for (int i = items.Size() - 1; i >= 0; i--) //remove music entries
@@ -524,9 +517,9 @@ static int PlayMedia(const std::vector<std::string>& params)
         }
       }
 
-      CServiceBroker::GetPlaylistPlayer().ClearPlaylist(playlistId);
-      CServiceBroker::GetPlaylistPlayer().Add(playlistId, items);
-      CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist(playlistId);
+      CServiceBroker::GetPlaylistPlayer().ClearPlaylist(playlist);
+      CServiceBroker::GetPlaylistPlayer().Add(playlist, items);
+      CServiceBroker::GetPlaylistPlayer().SetCurrentPlaylist(playlist);
       CServiceBroker::GetPlaylistPlayer().Play(playOffset, "");
       return 0;
     }
@@ -534,7 +527,7 @@ static int PlayMedia(const std::vector<std::string>& params)
   if ((item.IsAudio() || item.IsVideo()) && !item.IsSmartPlayList())
     CServiceBroker::GetPlaylistPlayer().Play(std::make_shared<CFileItem>(item), "");
   else
-    g_application.PlayMedia(item, "", PLAYLIST::TYPE_NONE);
+    g_application.PlayMedia(item, "", PLAYLIST_NONE);
 
   return 0;
 }

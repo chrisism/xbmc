@@ -179,9 +179,6 @@ extern "C"
 
     /// @brief **5 :** To identify @ref cpp_kodi_addon_inputstream_Defs_Info as Radio RDS
     INPUTSTREAM_TYPE_RDS,
-
-    /// @brief **6 :** To identify @ref cpp_kodi_addon_inputstream_Defs_Info as Audio ID3 tags
-    INPUTSTREAM_TYPE_ID3,
   };
   ///@}
   //------------------------------------------------------------------------------
@@ -657,10 +654,8 @@ extern "C"
                                    double* startpts);
     void(__cdecl* demux_set_speed)(const struct AddonInstance_InputStream* instance, int speed);
     void(__cdecl* set_video_resolution)(const struct AddonInstance_InputStream* instance,
-                                        unsigned int width,
-                                        unsigned int height,
-                                        unsigned int maxWidth,
-                                        unsigned int maxHeight);
+                                        int width,
+                                        int height);
 
     // IDisplayTime
     int(__cdecl* get_total_time)(const struct AddonInstance_InputStream* instance);

@@ -11,23 +11,21 @@
 #include "addons/binary-addons/AddonInstanceHandler.h"
 #include "addons/kodi-dev-kit/include/kodi/addon-instance/Visualization.h"
 
-namespace KODI
-{
-namespace ADDONS
+namespace ADDON
 {
 
-class CVisualization : public ADDON::IAddonInstanceHandler
+class CVisualization : public IAddonInstanceHandler
 {
 public:
-  CVisualization(const ADDON::AddonInfoPtr& addonInfo, float x, float y, float w, float h);
+  CVisualization(const AddonInfoPtr& addonInfo, float x, float y, float w, float h);
   ~CVisualization() override;
 
   bool Start(int channels, int samplesPerSec, int bitsPerSample, const std::string& songName);
   void Stop();
-  void AudioData(const float* audioData, int audioDataLength);
+  void AudioData(const float* audioData, int audioDataLength, float *freqData, int freqDataLength);
   bool IsDirty();
   void Render();
-  int GetSyncDelay();
+  void GetInfo(VIS_INFO *info);
   bool NextPreset();
   bool PrevPreset();
   bool LoadPreset(int select);
@@ -35,25 +33,22 @@ public:
   bool LockPreset();
   bool RatePreset(bool plus_minus);
   bool UpdateAlbumart(const char* albumart);
-  bool UpdateTrack(const KODI_ADDON_VISUALIZATION_TRACK* track);
+  bool UpdateTrack(const VIS_TRACK* track);
   bool HasPresets();
   bool GetPresetList(std::vector<std::string>& vecpresets);
   int GetActivePreset();
   std::string GetActivePresetName();
   bool IsLocked();
 
-  // Addon callback functions
-  void GetProperties(struct KODI_ADDON_VISUALIZATION_PROPS* props);
-  void TransferPreset(const std::string& preset);
-  void ClearPresets();
-
 private:
-  const int m_x;
-  const int m_y;
-  const int m_width;
-  const int m_height;
+  std::string m_name; /*!< To add-on sended name */
+  std::string m_presetsPath; /*!< To add-on sended preset path */
+  std::string m_profilePath; /*!< To add-on sended profile path */
   std::vector<std::string> m_presets; /*!< cached preset list */
+
+  // Static function to transfer data from add-on to kodi
+  static void transfer_preset(void* kodiInstance, const char* preset);
+  static void clear_presets(void* kodiInstance);
 };
 
-} // namespace ADDONS
-} // namespace KODI
+} /* namespace ADDON */

@@ -8,9 +8,8 @@ set(SOURCES AudioSinkAE.cpp
             DVDStreamInfo.cpp
             PTSTracker.cpp
             Edl.cpp
-            VideoPlayer.cpp
             VideoPlayerAudio.cpp
-            VideoPlayerAudioID3.cpp
+            VideoPlayer.cpp
             VideoPlayerRadioRDS.cpp
             VideoPlayerSubtitle.cpp
             VideoPlayerTeletext.cpp
@@ -31,7 +30,6 @@ set(HEADERS AudioSinkAE.h
             PTSTracker.h
             VideoPlayer.h
             VideoPlayerAudio.h
-            VideoPlayerAudioID3.h
             VideoPlayerRadioRDS.h
             VideoPlayerSubtitle.h
             VideoPlayerTeletext.h

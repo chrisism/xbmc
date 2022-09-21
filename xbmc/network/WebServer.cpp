@@ -10,6 +10,7 @@
 
 #include "CompileInfo.h"
 #include "ServiceBroker.h"
+#include "Util.h"
 #include "XBDateTime.h"
 #include "filesystem/File.h"
 #include "network/httprequesthandler/HTTPRequestHandlerUtils.h"

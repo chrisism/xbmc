@@ -15,7 +15,7 @@
 #include "filesystem/VideoDatabaseDirectory.h"
 #include "guilib/LocalizeStrings.h"
 #include "guilib/WindowIDs.h"
-#include "playlists/PlayListTypes.h"
+#include "playlists/PlayList.h"
 #include "settings/AdvancedSettings.h"
 #include "settings/MediaSourceSettings.h"
 #include "settings/Settings.h"
@@ -28,9 +28,10 @@
 using namespace XFILE;
 using namespace MUSICDATABASEDIRECTORY;
 
-PLAYLIST::Id CGUIViewStateWindowMusic::GetPlaylist() const
+int CGUIViewStateWindowMusic::GetPlaylist() const
 {
-  return PLAYLIST::TYPE_MUSIC;
+  //return PLAYLIST_MUSIC_TEMP;
+  return PLAYLIST_MUSIC;
 }
 
 bool CGUIViewStateWindowMusic::AutoPlayNextItem()
@@ -619,9 +620,9 @@ void CGUIViewStateWindowMusicPlaylist::SaveViewState()
   SaveViewToDb(m_items.GetPath(), WINDOW_MUSIC_PLAYLIST);
 }
 
-PLAYLIST::Id CGUIViewStateWindowMusicPlaylist::GetPlaylist() const
+int CGUIViewStateWindowMusicPlaylist::GetPlaylist() const
 {
-  return PLAYLIST::TYPE_MUSIC;
+  return PLAYLIST_MUSIC;
 }
 
 bool CGUIViewStateWindowMusicPlaylist::AutoPlayNextItem()

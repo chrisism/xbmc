@@ -10,6 +10,7 @@
 
 #include "AppParams.h"
 #include "LockType.h"
+#include "Util.h"
 #include "addons/AddonManager.h"
 #include "addons/Skin.h"
 #if defined(TARGET_ANDROID)

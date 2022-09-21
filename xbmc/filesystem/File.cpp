@@ -18,6 +18,7 @@
 #include "IFile.h"
 #include "PasswordManager.h"
 #include "ServiceBroker.h"
+#include "Util.h"
 #include "commons/Exception.h"
 #include "settings/AdvancedSettings.h"
 #include "settings/SettingsComponent.h"

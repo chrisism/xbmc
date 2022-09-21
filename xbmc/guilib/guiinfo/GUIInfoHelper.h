@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "playlists/PlayListTypes.h"
+#include "playlists/PlayList.h"
 
 #include <memory>
 #include <string>
@@ -29,7 +29,7 @@ namespace GUILIB
 namespace GUIINFO
 {
 
-std::string GetPlaylistLabel(int item, PLAYLIST::Id playlistid = PLAYLIST::TYPE_NONE);
+std::string GetPlaylistLabel(int item, int playlistid = PLAYLIST_NONE);
 
 CGUIWindow* GetWindow(int contextWindow);
 CGUIControl* GetActiveContainer(int containerId, int contextWindow);

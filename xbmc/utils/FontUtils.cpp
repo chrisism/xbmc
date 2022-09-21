@@ -11,6 +11,7 @@
 #include "FileItem.h"
 #include "StringUtils.h"
 #include "URIUtils.h"
+#include "Util.h"
 #include "filesystem/Directory.h"
 #include "filesystem/File.h"
 #include "filesystem/SpecialProtocol.h"

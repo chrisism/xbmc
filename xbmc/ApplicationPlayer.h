@@ -11,7 +11,6 @@
 #include "SeekHandler.h"
 #include "cores/IPlayer.h"
 #include "cores/MenuType.h"
-#include "playlists/PlayListTypes.h"
 #include "threads/CriticalSection.h"
 #include "threads/SystemClock.h"
 #include "windowing/Resolution.h"
@@ -87,7 +86,7 @@ public:
   int64_t GetChapterPos(int chapterIdx=-1);
   float GetPercentage() const;
   std::string GetPlayerState();
-  PLAYLIST::Id GetPreferredPlaylist() const;
+  int GetPreferredPlaylist() const;
   int GetSubtitle();
   void GetSubtitleCapabilities(std::vector<int> &subCaps);
   int GetSubtitleCount();

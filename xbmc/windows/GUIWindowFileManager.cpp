@@ -53,6 +53,7 @@
 #include "platform/Filesystem.h"
 
 using namespace XFILE;
+using namespace PLAYLIST;
 using namespace KODI::MESSAGING;
 
 #define CONTROL_BTNSELECTALL            1
@@ -630,7 +631,7 @@ void CGUIWindowFileManager::OnStart(CFileItem *pItem, const std::string &player)
   if (pItem->IsPlayList())
   {
     const std::string& strPlayList = pItem->GetPath();
-    std::unique_ptr<PLAYLIST::CPlayList> pPlayList(PLAYLIST::CPlayListFactory::Create(strPlayList));
+    std::unique_ptr<CPlayList> pPlayList (CPlayListFactory::Create(strPlayList));
     if (nullptr != pPlayList)
     {
       if (!pPlayList->Load(strPlayList))
@@ -639,7 +640,7 @@ void CGUIWindowFileManager::OnStart(CFileItem *pItem, const std::string &player)
         return;
       }
     }
-    g_application.ProcessAndStartPlaylist(strPlayList, *pPlayList, PLAYLIST::TYPE_MUSIC);
+    g_application.ProcessAndStartPlaylist(strPlayList, *pPlayList, PLAYLIST_MUSIC);
     return;
   }
   if (pItem->IsAudio() || pItem->IsVideo())

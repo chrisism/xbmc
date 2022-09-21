@@ -9,19 +9,22 @@
 #pragma once
 
 #include "FileItem.h"
-#include "PlayListTypes.h"
 
 #include <memory>
 #include <string>
 #include <vector>
 
+constexpr int PLAYLIST_NONE = -1;
+constexpr int PLAYLIST_MUSIC = 0;
+constexpr int PLAYLIST_VIDEO = 1;
+constexpr int PLAYLIST_PICTURE = 2;
+
 namespace PLAYLIST
 {
-
 class CPlayList
 {
 public:
-  explicit CPlayList(PLAYLIST::Id id = PLAYLIST::TYPE_NONE);
+  explicit CPlayList(int id = -1);
   virtual ~CPlayList(void) = default;
   virtual bool Load(const std::string& strFileName);
   virtual bool LoadData(std::istream &stream);
@@ -65,7 +68,7 @@ public:
   const std::string& ResolveURL(const CFileItemPtr &item) const;
 
 protected:
-  PLAYLIST::Id m_id;
+  int m_id;
   std::string m_strPlayListName;
   std::string m_strBasePath;
   int m_iPlayableItems;

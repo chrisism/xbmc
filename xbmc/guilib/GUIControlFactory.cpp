@@ -45,6 +45,7 @@
 #include "GUIVisualisationControl.h"
 #include "GUIWrappingListContainer.h"
 #include "LocalizeStrings.h"
+#include "Util.h"
 #include "addons/Skin.h"
 #include "cores/RetroPlayer/guicontrols/GUIGameControl.h"
 #include "games/controllers/guicontrols/GUIGameController.h"

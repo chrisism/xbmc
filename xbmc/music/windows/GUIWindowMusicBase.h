@@ -13,6 +13,7 @@
 \brief
 */
 
+#include "PlayListPlayer.h"
 #include "music/MusicDatabase.h"
 #include "music/MusicInfoLoader.h"
 #include "music/MusicThumbLoader.h"

@@ -602,8 +602,8 @@ public:
   /// See https://github.com/FFmpeg/FFmpeg/blob/master/libavcodec/codec_desc.c about
   /// available names.
   ///
-  /// @remark On @ref INPUTSTREAM_TYPE_TELETEXT, @ref INPUTSTREAM_TYPE_RDS, and
-  /// @ref INPUTSTREAM_TYPE_ID3 this can be ignored and leaved empty.
+  /// @remark On @ref INPUTSTREAM_TYPE_TELETEXT and @ref INPUTSTREAM_TYPE_RDS
+  /// this can be ignored and leaved empty.
   ///
   /// @param[in] codeName Codec name
   void SetCodecName(const std::string& codecName)
@@ -1555,28 +1555,12 @@ public:
   //----------------------------------------------------------------------------
 
   //============================================================================
-  /// @brief Notify current screen resolution
+  /// @brief Sets desired width / height
   ///
   /// @param[in] width Width to set
   /// @param[in] height Height to set
   ///
-  virtual void SetVideoResolution(unsigned int width, unsigned int height) {}
-  //----------------------------------------------------------------------------
-
-  //============================================================================
-  /// @brief Notify current screen resolution and max screen resolution allowed
-  ///
-  /// @param[in] width Width to set
-  /// @param[in] height Height to set
-  /// @param[in] maxWidth Max width allowed
-  /// @param[in] maxHeight Max height allowed
-  ///
-  virtual void SetVideoResolution(unsigned int width,
-                                  unsigned int height,
-                                  unsigned int maxWidth,
-                                  unsigned int maxHeight)
-  {
-  }
+  virtual void SetVideoResolution(int width, int height) {}
   //----------------------------------------------------------------------------
 
   //=============================================================================
@@ -1943,16 +1927,13 @@ private:
   }
 
   inline static void ADDON_SetVideoResolution(const AddonInstance_InputStream* instance,
-                                              unsigned int width,
-                                              unsigned int height,
-                                              unsigned int maxWidth,
-                                              unsigned int maxHeight)
+                                              int width,
+                                              int height)
   {
     static_cast<CInstanceInputStream*>(instance->toAddon->addonInstance)
         ->SetVideoResolution(width, height);
-    static_cast<CInstanceInputStream*>(instance->toAddon->addonInstance)
-        ->SetVideoResolution(width, height, maxWidth, maxHeight);
   }
+
 
   // IDisplayTime
   inline static int ADDON_GetTotalTime(const AddonInstance_InputStream* instance)

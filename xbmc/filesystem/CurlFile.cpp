@@ -11,6 +11,7 @@
 #include "File.h"
 #include "ServiceBroker.h"
 #include "URL.h"
+#include "Util.h"
 #include "filesystem/SpecialProtocol.h"
 #include "network/DNSNameCache.h"
 #include "settings/AdvancedSettings.h"

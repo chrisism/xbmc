@@ -13,6 +13,7 @@
 #include "EventPacket.h"
 #include "ServiceBroker.h"
 #include "Socket.h"
+#include "Util.h"
 #include "Zeroconf.h"
 #include "guilib/GUIAudioManager.h"
 #include "input/Key.h"

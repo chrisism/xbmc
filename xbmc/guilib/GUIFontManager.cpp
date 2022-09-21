@@ -25,6 +25,7 @@
 #include "GUIFont.h"
 #include "ServiceBroker.h"
 #include "URL.h"
+#include "Util.h"
 #include "filesystem/Directory.h"
 #include "filesystem/File.h"
 #include "settings/lib/Setting.h"

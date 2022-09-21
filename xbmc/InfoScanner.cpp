@@ -9,6 +9,7 @@
 #include "InfoScanner.h"
 
 #include "URL.h"
+#include "Util.h"
 #include "filesystem/File.h"
 #include "utils/URIUtils.h"
 #include "utils/log.h"
