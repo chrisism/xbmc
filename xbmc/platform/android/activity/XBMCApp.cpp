@@ -1045,10 +1045,12 @@ bool CXBMCApp::StartActivity(const std::string& package,
         continue;
       }
 
-      if (e["type"] == "string")
+      if (e["type"] == "string") 
+      {
         newIntent.putExtra(e["key"].GetString(), e["value"].GetString());
         CLog::LogF(LOGDEBUG, "Putting extra key: {}, value: {}", e["key"].GetString(),
                    e["value"].GetString());
+      }
       else
         CLog::LogF(LOGDEBUG, "Intent extras data type ({}) not implemented", e["type"].GetString());
     }
