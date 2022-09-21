@@ -1065,7 +1065,6 @@ bool CXBMCApp::StartActivity(const std::string& package,
   if (xbmc_jnienv()->ExceptionCheck())
   {
     CLog::LogF(LOGERROR, "ExceptionOccurred launching {}", package);
-    xbmc_jnienv()->ExceptionDescribe();
     xbmc_jnienv()->ExceptionClear();
     return false;
   }
